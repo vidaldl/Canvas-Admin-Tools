@@ -1,0 +1,107 @@
+{
+    "manifest_version": 2,
+    "name": "BYUI Canvas Admin Tools",
+    "short_name": "Canvas Tools",
+    "description": "Adds admin features to Canvas that simplify the admin experience.",
+    "version": "1.0.3",
+    "options_page": "views/options.html",
+    "background": {
+        "scripts": [
+            "/background/background.js"
+        ],
+        "persistent": false
+    },
+    "browser_action": {
+        "default_icon": {
+            "16": "./images/icon16.png",
+            "48": "./images/icon48.png",
+            "128": "./images/icon128.png"
+        },
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "16": "./images/icon16.png",
+        "48": "./images/icon48.png",
+        "128": "./images/icon128.png"
+    },
+    "permissions": [
+        "storage"
+    ],
+    "content_scripts": [{
+            "matches": [
+                "https://*.instructure.com/*"
+            ],
+            "js": [
+                "/scripts/adminAccountName/adminAccountName.js",
+                "/messaging/listener.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.instructure.com/accounts/*"
+            ],
+            "js": [
+                "scripts/crossList/crossList.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.instructure.com/courses/*"
+            ],
+            "js": [
+                "scripts/breadcrumbs/breadcrumbs.js",
+                "scripts/lock/lock.js",
+                "scripts/addBlueprintParent/addBlueprintParent.js",
+                "scripts/blueprintAssociations/blueprintAssociations.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.instructure.com/*/modules"
+            ],
+            "js": [
+                "scripts/navToModule/navToModule.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.instructure.com/*/quizzes/*/edit"
+            ],
+            "js": [
+                "scripts/deleteQuizQuestions/deleteQuizQuestions.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.instructure.com/*/question_banks/*"
+            ],
+            "js": [
+                "scripts/editQuestionBanks/editQuestionBanks.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.instructure.com/courses/*/files*"
+            ],
+            "js": [
+                "scripts/selectAllFiles/selectAllFiles.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.instructure.com/courses/*/quizzes"
+            ],
+            "js": [
+                "scripts/deleteAllQuizzes/deleteAllQuizzes.js"
+            ]
+        },
+        {
+            "matches": [
+                "https://*.instructure.com/*"
+            ],
+            "js": [
+                "scripts/editor/editor.js"
+            ]
+        }
+    ]
+}

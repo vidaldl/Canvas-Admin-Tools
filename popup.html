@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Canvas Extended</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="style/main.css" />
+</head>
+
+<body>
+    <header>
+        <h2>Canvas Admin</h2>
+        <div id="menuIcon">
+            <object type="image/svg+xml" id="menuImg" data="images/Cog.svg">
+                Your browser does not support SVG
+            </object>
+            <p>Settings</p>
+        </div>
+    </header>
+
+    <table>
+        <tr id="quizQuestionsDelete">
+            <td class="container" for="deleteQuestions">Delete Quiz Questions</td>
+            <td><button type="button" id="deleteQuizQuestions">Delete Questions</button></td>
+        </tr>
+        <tr id="killQuizzes">
+            <td class="container" for="deleteQuizzes">Delete All Quizzes</td>
+            <td><button type="button" id="deleteQuizzes">Delete Quizzes</button></td>
+        </tr>
+        <tr id="blueprintLockItems">
+            <td class="container" for="lockElements">Blueprint Lock Items</td>
+            <td><button type="button" id="lockSections">Lock Items</button>
+                <button type="button" id="unlockSections">Unlock Items</button></td>
+        </tr>
+        <tr id="addDivsToQuestions">
+            <td class="container" for="divsToQuestionBanks">Add Divs to Questions</td>
+            <td><button type="button" id="addDivsToQuestionBank">Add Divs</button></td>
+        </tr>
+    </table>
+    <script src="./main.js"></script>
+
+</body>
+
+</html>

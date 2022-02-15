@@ -1,0 +1,73 @@
+:root {
+    --blue1: #0076c6;
+}
+
+body {
+    min-width: 500px;
+    padding: 20px 40px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
+
+header {
+    display: -webkit-box;
+    stroke: black;
+}
+
+nav {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+header span {
+    font-size: 1.5em;
+    position: absolute;
+    top: 16%;
+    right: 50px;
+}
+
+object {
+    pointer-events: none;
+}
+
+#menuIcon {
+    font-size: .8em;
+    position: absolute;
+    top: 15%;
+    right: 10px;
+    margin: auto;
+}
+
+#menuIcon p {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+#menuImg {
+    padding: 0 .6em;
+    height: 35px;
+    transition: .25s;
+}
+
+#menuIcon:hover {
+    color: var(--blue1);
+}
+
+button, #menuIcon, header span {
+    cursor: pointer;
+}
+
+button:hover {
+    color: var(--blue1);
+}
+
+h1 {
+    font-size: 36px;
+    margin: 10px 0;
+}
+
+h2 {
+    color: var(--blue1);
+}
