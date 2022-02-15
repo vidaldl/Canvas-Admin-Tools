@@ -16,7 +16,9 @@ chrome.runtime.onInstalled.addListener(details => {
         thing = 'updated';
     } else {
         console.log(details);
+
     }
+    addEmailOption();
 });
 
 /********************************
@@ -29,3 +31,25 @@ function firstLoad() {
     thing = '';
     return returnValue;
 }
+
+/********************************
+ *
+ * Adds right-click menu option to
+ * copy student emails to clipboard.
+ *
+ ********************************/
+function addEmailOption() {
+    chrome.contextMenus.create({
+        id: "get-emails",
+        title: "Copy Emails From Clipboard",
+        contexts: ["page"],
+        documentUrlPatterns: ["https://*.instructure.com/courses/*/quizzes/*"]
+    });
+
+    chrome.contextMenus.onClicked.addListener(function(info, tab) {
+        if (info.menuItemId == "get-emails") {
+            alert("TEST WORKING");
+        }
+    });
+}
+

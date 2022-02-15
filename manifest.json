@@ -25,7 +25,9 @@
         "128": "./images/icon128.png"
     },
     "permissions": [
-        "storage"
+        "storage",
+        "contextMenus",
+        "tabs"
     ],
     "content_scripts": [{
             "matches": [
