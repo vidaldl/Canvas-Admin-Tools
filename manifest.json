@@ -104,6 +104,15 @@
             "js": [
                 "scripts/editor/editor.js"
             ]
+        },
+        {
+            "matches": [
+                "https://*.instructure.com/courses/*/quizzes/*/statistics"
+            ],
+            "js":[
+                "/background/jquery/jquery.min.js",
+                "scripts/getUsrEmails/getUsrEmails.js"
+            ]
         }
     ]
 }

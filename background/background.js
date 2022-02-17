@@ -41,14 +41,21 @@ function firstLoad() {
 function addEmailOption() {
     chrome.contextMenus.create({
         id: "get-emails",
-        title: "Copy Emails From Clipboard",
+        title: "Copy Emails To Clipboard",
         contexts: ["page"],
-        documentUrlPatterns: ["https://*.instructure.com/courses/*/quizzes/*"]
+        documentUrlPatterns: ["https://*.instructure.com/courses/*/quizzes/*/statistics"]
     });
 
     chrome.contextMenus.onClicked.addListener(function(info, tab) {
         if (info.menuItemId == "get-emails") {
-            alert("TEST WORKING");
+            chrome.tabs.query({
+                "active": true,
+                "currentWindow": true
+            }, function (tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    "functiontoInvoke": "getEmails"
+                });
+            });
         }
     });
 }
