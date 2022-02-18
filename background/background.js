@@ -40,20 +40,20 @@ function firstLoad() {
  ********************************/
 function addEmailOption() {
     chrome.contextMenus.create({
-        id: "get-emails",
-        title: "Copy Emails To Clipboard",
+        id: "email-students",
+        title: "Email Students On This List",
         contexts: ["page"],
         documentUrlPatterns: ["https://*.instructure.com/courses/*/quizzes/*/statistics"]
     });
 
     chrome.contextMenus.onClicked.addListener(function(info, tab) {
-        if (info.menuItemId == "get-emails") {
+        if (info.menuItemId == "email-students") {
             chrome.tabs.query({
                 "active": true,
                 "currentWindow": true
             }, function (tabs) {
                 chrome.tabs.sendMessage(tabs[0].id, {
-                    "functiontoInvoke": "getEmails"
+                    "functiontoInvoke": "emailStudents"
                 });
             });
         }

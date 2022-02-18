@@ -8,7 +8,7 @@ function getNames() {
 
 
 
-async function getEmails() {
+async function getStudents() {
     var names = getNames();
     console.log(names);
     var pathRegex = new RegExp('^/courses/([0-9]+)/?');
@@ -19,7 +19,7 @@ async function getEmails() {
             const terms = [];
             var nextPage = true;
             var pageCount = 1;
-            var emails = ""
+            var students = []
             for (let i = 0; i < names.length; i++) {
 
                 names[i] = names[i].replace(/ /g, '%20')
@@ -31,13 +31,9 @@ async function getEmails() {
 
                 })
                     .done(function(data, status, response) {
-                        console.log(data);
+                        // console.log(data);
                        if(data.length != 0) {
-                           if(i != 0) {
-                               emails = emails + "," + data[0].email;
-                           } else {
-                               emails = emails + data[0].email;
-                           }
+                          students.push(data[0].id);
                        }
 
                     }).fail(function() {
@@ -47,14 +43,7 @@ async function getEmails() {
                 await new Promise(r => setTimeout(r, 100));
             }
 
-            if(emails != "") {
-                console.log(emails);
-                navigator.clipboard.writeText(emails).then(function() {
-                    console.log('Async: Copying to clipboard was successful!');
-                }, function(err) {
-                    console.error('Async: Could not copy text: ', err);
-                });
-            }
+            return students;
 
 
         }
@@ -63,13 +52,83 @@ async function getEmails() {
     }
 }
 
+function emailStudents() {
+    var emailForm = `<div>
+                        <label for="emailSubject">Message Students</label>
+                        <br />
+                        <input placeholder="Subject" id="emailSubject">
+                        
+                        <textarea style="width: 90%" id="emailMessage" placeholder="Your message..."></textarea>
+                        
+                        <button id="sendEmail">SEND</button>
+                    </div>`
+    $(emailForm).insertAfter(".answer-response-list");
+
+    $("#sendEmail").click(function() {
+        var subject = $('#emailSubject').val();
+        var body = $('#emailMessage').val();
+
+        sendMessage(subject, body);
+    })
+}
+
+
+async function sendMessage(subject, body) {
+    const CSRFtoken = function() {
+        return decodeURIComponent((document.cookie.match('(^|;) *_csrf_token=([^;]*)') || '')[2])
+    }
+    var studentIds = await getStudents();
+    console.log(studentIds);
+    var pathRegex = new RegExp('^/courses/([0-9]+)/?');
+    var matches = pathRegex.exec(window.location.pathname);
+    try {
+        if (matches) {
+            var courseId = matches[1];
+            var message = {
+                force_new: "true",
+                recipients: studentIds.toString(),
+                subject: subject,
+                body: body,
+                context_code: "course_179890",
+            }
+
+
+
+            console.log(message);
+
+            await fetch('/api/v1/conversations', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    'accept': 'application/json',
+                    'X-CSRF-Token': CSRFtoken()
+                },
+                body: JSON.stringify(message),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+
+            console.log(studentIds);
+        } else {
+            console.log('User is not in a course page.')
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 var showAnotherInfo = function () {
     console.log("Show Another Info");
 }
 chrome.extension.onMessage.addListener(function (message, sender, callback) {
-    if (message.functiontoInvoke == "getEmails") {
-        getEmails();
+    if (message.functiontoInvoke == "emailStudents") {
+        emailStudents();
     }
     if (message.functiontoInvoke == "showAnotherInfo") {
         showAnotherInfo();
