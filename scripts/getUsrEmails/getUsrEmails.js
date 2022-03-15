@@ -13,6 +13,11 @@ async function getStudents() {
     console.log(names);
     var pathRegex = new RegExp('^/courses/([0-9]+)/?');
     var matches = pathRegex.exec(window.location.pathname);
+    // Setup Loading
+    var loadingEmail = `<div id="loadingEmail" style="height: 100px; width: 200px; border: 1px solid black">
+                            <span style="width: 50%; margin: 0 auto;"><p>Loading...</p></span>
+                        </div>`
+    $(loadingEmail).insertAfter(".answer-response-list");
     try {
         if (matches) {
             var courseId = matches[1];
@@ -50,9 +55,14 @@ async function getStudents() {
     } catch (err) {
         console.log(err)
     }
+
+
 }
 
-function emailStudents() {
+async function emailStudents() {
+    var studentIds = await getStudents();
+    // Hide loading
+    $("#loadingEmail").remove();
     var emailForm = `<div>
                         <label for="emailSubject">Message Students</label>
                         <br />
@@ -68,16 +78,16 @@ function emailStudents() {
         var subject = $('#emailSubject').val();
         var body = $('#emailMessage').val();
 
-        sendMessage(subject, body);
+        sendMessage(subject, body, studentIds);
     })
 }
 
 
-async function sendMessage(subject, body) {
+async function sendMessage(subject, body, studentIds) {
     const CSRFtoken = function() {
         return decodeURIComponent((document.cookie.match('(^|;) *_csrf_token=([^;]*)') || '')[2])
     }
-    var studentIds = await getStudents();
+
     console.log(studentIds);
     var pathRegex = new RegExp('^/courses/([0-9]+)/?');
     var matches = pathRegex.exec(window.location.pathname);
@@ -91,9 +101,6 @@ async function sendMessage(subject, body) {
                 body: body,
                 context_code: "course_179890",
             }
-
-
-
             console.log(message);
 
             await fetch('/api/v1/conversations', {
