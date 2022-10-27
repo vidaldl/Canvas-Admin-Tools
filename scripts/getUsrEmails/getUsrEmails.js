@@ -63,7 +63,7 @@ async function emailStudents() {
     var studentIds = await getStudents();
     // Hide loading
     $("#loadingEmail").remove();
-    var emailForm = `<div>
+    var emailForm = `<div id="emailForm">
                         <label for="emailSubject">Message Students</label>
                         <br />
                         <input placeholder="Subject" id="emailSubject">
@@ -74,11 +74,18 @@ async function emailStudents() {
                     </div>`
     $(emailForm).insertAfter(".answer-response-list");
 
-    $("#sendEmail").click(function() {
+    $("#sendEmail").click(async function() {
         var subject = $('#emailSubject').val();
         var body = $('#emailMessage').val();
 
-        sendMessage(subject, body, studentIds);
+        await sendMessage(subject, body, studentIds);
+
+        $("#emailForm").remove()
+
+        var successMessage = `<div id="successMessage">
+                                 <h2>Message Sent. Please close this pop-up.</h2>
+                            </div>`;
+        $(successMessage).insertAfter(".answer-response-list");
     })
 }
 

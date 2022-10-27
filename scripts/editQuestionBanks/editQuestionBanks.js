@@ -197,7 +197,8 @@ function clickTheButtons() {
 
     /********* Main Functionality ********/
     var title = document.querySelector('#breadcrumbs [href*=\'/courses/\'] .ellipsible').innerText.replace(/\s/g, '').toLocaleLowerCase();
-    var courseName = title.length > 0 ? title.replace('onlinemaster', '') : null;
+
+    var courseName = prompt("Please enter the BYU-I Style class");
     let allQuestions = document.querySelectorAll('#questions > div');
     // Get an array of objects that are just the questions that need editing
     let completeQuestionsObject = getQuestionsToEditObjects();
