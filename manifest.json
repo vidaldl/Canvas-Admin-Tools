@@ -83,6 +83,14 @@
         },
         {
             "matches": [
+                "https://*.instructure.com/courses/*/quizzes/*/edit"
+            ],
+            "js": [
+                "scripts/editQuestionBanks/editQuestionBanks.js"
+            ]
+        },
+        {
+            "matches": [
                 "https://*.instructure.com/courses/*/files*"
             ],
             "js": [

@@ -205,4 +205,5 @@ function clickTheButtons() {
 
     // Run on the questions that need editing
     completeQuestionsObject.reduce((prev, el, i) => prev.then(() => FixTheHTML(el, i)), Promise.resolve());
+
 }
