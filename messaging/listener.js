@@ -31,9 +31,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse("Sections unlocked!");
             break;
         case "addDivsToQuestionBank":
-            loadFullPage()
-                .then(clickTheButtons)
-                .catch(console.error);
+            clickTheButtons()
             sendResponse("Divs added!");
             break;
         case "editor":

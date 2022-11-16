@@ -15,7 +15,7 @@ function loadFullPage() {
             currPage = more_questions.dataset.currentPage;
 
             if (currPage < totalPages) {
-                setTimeout(openPages, 100);
+                setTimeout(openPages, 1000);
             } else {
                 resolve(true);
             }
@@ -154,18 +154,19 @@ function clickTheButtons() {
         // });
     }
 
-    function SlowMethod(el, i) {
+     function SlowMethod(el, i) {
         // console.log('Slow: ', i);
         return new Promise((resolve, reject) => {
             waitFor(document, () => {
                 var sel = document.querySelector('.ic-RichContentEditor [data-rich_text]');
                 return sel && sel.getAttribute('data-rich_text') == 'true';
-            }, () => {
+            }, async () => {
                 console.log(document.querySelectorAll('#questions')[el.index]);
                 var diffholder = document.querySelectorAll('#questions > div')[el.index].querySelector('.question_form');
-                addDivToQuestions(diffholder);
-                waitFor(diffholder, () => !diffholder.querySelector('.question_form'), resolve);
-                clickThing(diffholder.querySelector('.btn-primary'));
+                await addDivToQuestions(diffholder);
+                await waitFor(diffholder, () => !diffholder.querySelector('.question_form'), resolve);
+                await clickThing(diffholder.querySelector('.submit_button'));
+
             });
         });
 
@@ -181,6 +182,7 @@ function clickTheButtons() {
             // console.log(Array.from(questionOuterShell.querySelectorAll('.question_form a'))) //.filter(item => item.innerText.trim() === 'HTML Editor')[0]);
             console.log('OuterShell: ', el.correctText.outerHTML);
             questionOuterShell.querySelector('.question .question_content').value = el.correctText.outerHTML;
+            console.log(questionOuterShell.querySelector('.question .question_content').value)
             return questionOuterShell;
         }
 
@@ -191,7 +193,8 @@ function clickTheButtons() {
         clickThing(el.fullQuestion.querySelector('.edit_question_link , .edit_teaser_link'));
         setTimeout(() => {
             clickThing(el.fullQuestion.querySelector('.btn-primary'));
-        }, 4);
+        }, 10);
+
     }
 
 
@@ -202,8 +205,9 @@ function clickTheButtons() {
     let allQuestions = document.querySelectorAll('#questions > div');
     // Get an array of objects that are just the questions that need editing
     let completeQuestionsObject = getQuestionsToEditObjects();
-
+    FixTheHTML(completeQuestionsObject[0]);
     // Run on the questions that need editing
-    completeQuestionsObject.reduce((prev, el, i) => prev.then(() => FixTheHTML(el, i)), Promise.resolve());
+    // completeQuestionsObject.reduce((prev, el, i) => prev.then(() => FixTheHTML(el, i)), Promise.resolve());
+
 
 }
