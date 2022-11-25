@@ -136,10 +136,8 @@ function clickTheButtons() {
         // return new Promise((resolve, reject) => {
         // allQuestions = document.querySelectorAll('#questions > div');
         let fastMethodPossible = allQuestions[el.index].querySelector('div.text > div.original_question_text > textarea.textarea_question_text');
-        clickThing(el.fullQuestion.querySelector('.edit_question_link , .edit_teaser_link'));
-        return await SlowMethod(el, i);
         // console.log(el);
-        /*if (el.fastPossible) {
+        if (el.fastPossible) {
             // console.log('Fast: ', i);
             FastMethod(fastMethodPossible, el, i);
             // resolve();
@@ -153,7 +151,7 @@ function clickTheButtons() {
             // .then(() => {
             //     return 'things';
             // });
-        }*/
+        }
         // });
     }
 
