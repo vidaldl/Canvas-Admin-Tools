@@ -59,6 +59,7 @@ function clickThing(cssSelector) {
 function waitFor(parent, fn, cb) {
     var observer = new MutationObserver(() => {
         if (fn()) {
+            console.log('WORKED!!!');
             observer.disconnect();
             cb();
         }
@@ -135,8 +136,10 @@ function clickTheButtons() {
         // return new Promise((resolve, reject) => {
         // allQuestions = document.querySelectorAll('#questions > div');
         let fastMethodPossible = allQuestions[el.index].querySelector('div.text > div.original_question_text > textarea.textarea_question_text');
+        clickThing(el.fullQuestion.querySelector('.edit_question_link , .edit_teaser_link'));
+        return await SlowMethod(el, i);
         // console.log(el);
-        if (el.fastPossible) {
+        /*if (el.fastPossible) {
             // console.log('Fast: ', i);
             FastMethod(fastMethodPossible, el, i);
             // resolve();
@@ -150,7 +153,7 @@ function clickTheButtons() {
             // .then(() => {
             //     return 'things';
             // });
-        }
+        }*/
         // });
     }
 
@@ -163,7 +166,7 @@ function clickTheButtons() {
             }, async () => {
                 console.log(document.querySelectorAll('#questions')[el.index]);
                 var diffholder = document.querySelectorAll('#questions > div')[el.index].querySelector('.question_form');
-                await addDivToQuestions(diffholder);
+                await addDivToQuestions();
                 await waitFor(diffholder, () => !diffholder.querySelector('.question_form'), resolve);
                 await clickThing(diffholder.querySelector('.submit_button'));
 
@@ -176,14 +179,32 @@ function clickTheButtons() {
          * 
          * @param {string} questionOuterShell The container of the question being edited
          */
-        function addDivToQuestions(questionOuterShell) {
+        function addDivToQuestions() {
+
+            var doc = Array.from(document.querySelectorAll('iframe')).filter(item => item.id.includes('question'))[0].contentDocument;
+            var docHTML = doc.querySelector('body');
+            var childElements = docHTML.children;
+            var div = document.createElement('div');
+            div.className = 'byui ' + courseName;
+            if (childElements[0].tagName === 'DIV') {
+                childElements[0].className = div.className;
+            } else {
+                docHTML.appendChild(div);
+                for (let i = 0; i < childElements.length; i++) {
+                    div.appendChild(childElements[i]);
+                }
+
+            }
+
             // Click button for the HTML editor
-            clickThing(Array.from(questionOuterShell.querySelectorAll('.question_form a')).filter(item => item.innerText.trim() === 'HTML Editor')[0]);
-            // console.log(Array.from(questionOuterShell.querySelectorAll('.question_form a'))) //.filter(item => item.innerText.trim() === 'HTML Editor')[0]);
-            console.log('OuterShell: ', el.correctText.outerHTML);
+            /*lickThing(Array.from(questionOuterShell.querySelectorAll('.question_form a')).filter(item => item.innerText.trim() === 'HTML Editor')[0]);
+            console.log(Array.from(questionOuterShell.querySelectorAll('.question_form a'))) //.filter(item => item.innerText.trim() === 'HTML Editor')[0]);
+            console.log('Correct: ', el.correctText.outerHTML);
+            var v = questionOuterShell.querySelector('.question .question_content');
+            console.log('Current: ', v.value);
             questionOuterShell.querySelector('.question .question_content').value = el.correctText.outerHTML;
-            console.log(questionOuterShell.querySelector('.question .question_content').value)
-            return questionOuterShell;
+            console.log('New: ', questionOuterShell.querySelector('.question .question_content').value);
+            return questionOuterShell;*/
         }
 
     }
@@ -205,9 +226,9 @@ function clickTheButtons() {
     let allQuestions = document.querySelectorAll('#questions > div');
     // Get an array of objects that are just the questions that need editing
     let completeQuestionsObject = getQuestionsToEditObjects();
-    FixTheHTML(completeQuestionsObject[0]);
+    //FixTheHTML(completeQuestionsObject[0]);
     // Run on the questions that need editing
-    // completeQuestionsObject.reduce((prev, el, i) => prev.then(() => FixTheHTML(el, i)), Promise.resolve());
+    completeQuestionsObject.reduce((prev, el, i) => prev.then(() => FixTheHTML(el, i)), Promise.resolve());
 
 
 }
