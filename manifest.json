@@ -124,11 +124,11 @@
         },
         {
             "matches": [
-                "https://*.instructure.com/courses/*/quizzes/*/statistics"
+                "https://*.instructure.com/courses/*/settings*"
             ],
             "js":[
                 "/background/jquery/jquery.min.js",
-                "scripts/getUsrEmails/getUsrEmails.js"
+                "scripts/sortNavigation/sortDisabledNav.js"
             ]
         }
     ]

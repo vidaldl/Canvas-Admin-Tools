@@ -18,7 +18,8 @@ chrome.runtime.onInstalled.addListener(details => {
         console.log(details);
 
     }
-    addEmailOption();
+    // addEmailOption();
+    sortDisabledNavOption();
 });
 
 /********************************
@@ -38,25 +39,53 @@ function firstLoad() {
  * copy student emails to clipboard.
  *
  ********************************/
-function addEmailOption() {
+// function addEmailOption() {
+//     chrome.contextMenus.create({
+//         id: "email-students",
+//         title: "Email Students On This List",
+//         contexts: ["page"],
+//         documentUrlPatterns: ["https://*.instructure.com/courses/*/quizzes/*/statistics"]
+//     });
+//
+//     chrome.contextMenus.onClicked.addListener(function(info, tab) {
+//         if (info.menuItemId == "email-students") {
+//             chrome.tabs.query({
+//                 "active": true,
+//                 "currentWindow": true
+//             }, function (tabs) {
+//                 chrome.tabs.sendMessage(tabs[0].id, {
+//                     "functiontoInvoke": "emailStudents"
+//                 });
+//             });
+//         }
+//     });
+// }
+
+/********************************
+ *
+ * Adds right-click menu option to
+ * Alphabetically organize the disabled
+ * nav items on the settings of a course.
+ *
+ ********************************/
+function sortDisabledNavOption() {
     chrome.contextMenus.create({
-        id: "email-students",
-        title: "Email Students On This List",
+        id: "sort-disabled-nav",
+        title: "Sort Disabled Navigation",
         contexts: ["page"],
-        documentUrlPatterns: ["https://*.instructure.com/courses/*/quizzes/*/statistics"]
+        documentUrlPatterns: ["https://*.instructure.com/courses/*/settings*"]
     });
 
     chrome.contextMenus.onClicked.addListener(function(info, tab) {
-        if (info.menuItemId == "email-students") {
+        if (info.menuItemId == "sort-disabled-nav") {
             chrome.tabs.query({
                 "active": true,
                 "currentWindow": true
             }, function (tabs) {
                 chrome.tabs.sendMessage(tabs[0].id, {
-                    "functiontoInvoke": "emailStudents"
+                    "functiontoInvoke": "sortDisabledNav"
                 });
             });
         }
     });
 }
-

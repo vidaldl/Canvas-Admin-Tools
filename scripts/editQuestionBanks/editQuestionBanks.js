@@ -195,7 +195,7 @@ function clickTheButtons() {
             }
 
             // Click button for the HTML editor
-            /*lickThing(Array.from(questionOuterShell.querySelectorAll('.question_form a')).filter(item => item.innerText.trim() === 'HTML Editor')[0]);
+            /*clickThing(Array.from(questionOuterShell.querySelectorAll('.question_form a')).filter(item => item.innerText.trim() === 'HTML Editor')[0]);
             console.log(Array.from(questionOuterShell.querySelectorAll('.question_form a'))) //.filter(item => item.innerText.trim() === 'HTML Editor')[0]);
             console.log('Correct: ', el.correctText.outerHTML);
             var v = questionOuterShell.querySelector('.question .question_content');

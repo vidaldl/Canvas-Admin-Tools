@@ -235,7 +235,7 @@ function showFeedbackDiv() {
  * was just downloaded or updated.
  * If one of those things is true,
  * it will add some stuff to the
- * page to help with navigation. 
+ * page to help with sortNavigation.
  *
  ********************************/
 let bg = chrome.extension.getBackgroundPage();
