@@ -95,7 +95,7 @@ function clickTheButtons() {
 
         // Filter down to just the questions that need to be edited
         let justTheQuestionsToEdit = Array.from(verySpecific).reduce((acc, question, i) => {
-            let edit = question.querySelectorAll('div[class*="byui"]');
+            let edit = question.children;
             let match = edit[0] ? edit[0].className === `byui ${courseName}` : false;
             if (match === false || edit.length > 1) {
                 acc.push({
@@ -184,16 +184,27 @@ function clickTheButtons() {
             var childElements = docHTML.children;
             var div = document.createElement('div');
             div.className = 'byui ' + courseName;
+            //checks if the first element is a div, and if so simply renames it.
             if (childElements[0].tagName === 'DIV') {
                 childElements[0].className = div.className;
             } else {
-                docHTML.appendChild(div);
-                for (let i = 0; i < childElements.length; i++) {
-                    div.appendChild(childElements[i]);
+                
+                //Iterates through the html elements, and if it encounters another div, removes all elements from it and to the new div, otherwise
+                //just adds the element to the new div.
+                for (let i = 0; i < count; i++) {
+                    if (childElements[0].tagName === 'DIV'){
+                        var test = childElements[0].children;
+                        
+                        //adds div elements to the new div.
+                        for (let c = 0; c < test.length; c++){
+                            div.appendChild(test[c]);
+                        } 
+                    } else {
+                        div.appendChild(childElements[0]);
+                    }
                 }
-
+                docHTML.appendChild(div);
             }
-
             // Click button for the HTML editor
             /*clickThing(Array.from(questionOuterShell.querySelectorAll('.question_form a')).filter(item => item.innerText.trim() === 'HTML Editor')[0]);
             console.log(Array.from(questionOuterShell.querySelectorAll('.question_form a'))) //.filter(item => item.innerText.trim() === 'HTML Editor')[0]);
