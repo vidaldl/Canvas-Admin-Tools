@@ -125,6 +125,7 @@ function clickTheButtons() {
                 let div = document.createElement('div');
                 div.className = `byui ${courseName}`;
                 div.innerHTML = content;
+                console.log(div);
                 el.correctText = div;
             }
             return el;
@@ -137,11 +138,11 @@ function clickTheButtons() {
         // allQuestions = document.querySelectorAll('#questions > div');
         let fastMethodPossible = allQuestions[el.index].querySelector('div.text > div.original_question_text > textarea.textarea_question_text');
         // console.log(el);
-        if (el.fastPossible) {
+        //if (el.fastPossible) {
             // console.log('Fast: ', i);
-            FastMethod(fastMethodPossible, el, i);
+            //FastMethod(fastMethodPossible, el, i);
             // resolve();
-        } else {
+        //} else {
             clickThing(el.fullQuestion.querySelector('.edit_question_link , .edit_teaser_link'));
             // allQuestions = document.querySelectorAll('#questions > div');
             el.allQuestions = allQuestions[el.index];
@@ -151,7 +152,7 @@ function clickTheButtons() {
             // .then(() => {
             //     return 'things';
             // });
-        }
+        //}
         // });
     }
 
@@ -184,25 +185,20 @@ function clickTheButtons() {
             var childElements = docHTML.children;
             var div = document.createElement('div');
             div.className = 'byui ' + courseName;
+            var count = childElements.length;
             //checks if the first element is a div, and if so simply renames it.
             if (childElements[0].tagName === 'DIV') {
                 childElements[0].className = div.className;
             } else {
-                
                 //Iterates through the html elements, and if it encounters another div, removes all elements from it and to the new div, otherwise
                 //just adds the element to the new div.
-                for (let i = 0; i < count; i++) {
-                    if (childElements[0].tagName === 'DIV'){
-                        var test = childElements[0].children;
-                        
-                        //adds div elements to the new div.
-                        for (let c = 0; c < test.length; c++){
-                            div.appendChild(test[c]);
-                        } 
-                    } else {
-                        div.appendChild(childElements[0]);
+                Array.from(childElements).forEach((child) => {
+                    if (child.tagName == "DIV" && child.className == div.className) {
+                        var innerChildren = child.children;
+                        Array.from(innerChildren).forEach((innerChild) => div.appendChild(innerChild));
                     }
-                }
+                    div.appendChild(child)});
+                    
                 docHTML.appendChild(div);
             }
             // Click button for the HTML editor
@@ -228,16 +224,25 @@ function clickTheButtons() {
     }
 
 
+    //something we might use later
+    /*function openQuestionBanks() {
+        for (let i = 0; i < questionBanks.length; i++) {
+            let questionBank = questionBanks[i];
+            clickThing(questionBank.querySelector("a"));
+            let bankQuestions = document.querySelector("#questions > div");
+
+        }
+    }/*
+
     /********* Main Functionality ********/
     var title = document.querySelector('#breadcrumbs [href*=\'/courses/\'] .ellipsible').innerText.replace(/\s/g, '').toLocaleLowerCase();
 
     var courseName = prompt("Please enter the BYU-I Style class");
     let allQuestions = document.querySelectorAll('#questions > div');
+    allQuestions = Array.from(allQuestions).filter(question => question.className == "quiz_sortable question_holder ");
     // Get an array of objects that are just the questions that need editing
     let completeQuestionsObject = getQuestionsToEditObjects();
     //FixTheHTML(completeQuestionsObject[0]);
     // Run on the questions that need editing
-    completeQuestionsObject.reduce((prev, el, i) => prev.then(() => FixTheHTML(el, i)), Promise.resolve());
-
-
+    completeQuestionsObject.reduce((prev, el, i) => prev.then(() => FixTheHTML(el, i)), Promise.resolve());   
 }
