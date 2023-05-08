@@ -239,7 +239,7 @@ function clickTheButtons() {
 
     var courseName = prompt("Please enter the BYU-I Style class");
     let allQuestions = document.querySelectorAll('#questions > div');
-    allQuestions = Array.from(allQuestions).filter(question => question.className == "quiz_sortable question_holder ");
+    //allQuestions = Array.from(allQuestions).filter(question => question.className == "quiz_sortable question_holder ");
     // Get an array of objects that are just the questions that need editing
     let completeQuestionsObject = getQuestionsToEditObjects();
     //FixTheHTML(completeQuestionsObject[0]);
